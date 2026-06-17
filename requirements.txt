@@ -1,10 +1,14 @@
+streamlit
 fastapi
 uvicorn
+python-dotenv
 langchain
 langchain-openai
 langchain-community
 langchain-text-splitters
-python-dotenv
+openai
 faiss-cpu
 pypdf
-openai
+rank-bm25
+sentence-transformers
+requests
