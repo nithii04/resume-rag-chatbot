@@ -1,137 +1,199 @@
-# Resume RAG Chatbot Notes
+# Resume RAG Chatbot - Learning Notes
 
-## Project Overview
+## Project Goal
 
-Resume RAG Chatbot built using:
+Build a production-style Resume RAG Chatbot capable of answering questions from uploaded PDF and TXT documents.
 
-* Streamlit
-* FastAPI
-* LangChain
-* OpenAI
+---
+
+## Concepts Learned
+
+### RAG (Retrieval Augmented Generation)
+
+RAG combines:
+
+* Retrieval
+* Large Language Models
+
+Flow:
+
+User Question
+↓
+Retrieve Relevant Chunks
+↓
+Provide Context
+↓
+Generate Answer
+
+---
+
+### Chunking
+
+Used:
+
+* RecursiveCharacterTextSplitter
+
+Purpose:
+
+* Split large documents into smaller chunks
+* Improve retrieval quality
+
+---
+
+### Embeddings
+
+Used:
+
+* OpenAI Embeddings
+
+Purpose:
+
+* Convert text into vectors
+* Enable semantic search
+
+---
+
+### Vector Database
+
+Used:
+
 * FAISS
-* Docker
-
----
-
-## Architecture
-
-User
-
-↓
-
-Streamlit Frontend
-
-↓
-
-FastAPI Backend
-
-↓
-
-Embeddings
-
-↓
-
-FAISS Vector DB
-
-↓
-
-Similarity Search
-
-↓
-
-OpenAI GPT
-
-↓
-
-Answer
-
----
-
-## Important Concepts
-
-### What is RAG?
-
-Retrieval-Augmented Generation is a technique where relevant information is retrieved from documents and provided to an LLM before generating an answer.
-
-### Why Chunking?
-
-Large documents are split into smaller chunks so embeddings can be generated efficiently and relevant information can be retrieved.
-
-### Why Embeddings?
-
-Embeddings convert text into numerical vectors that capture semantic meaning.
-
-### Why FAISS?
-
-FAISS stores embeddings and performs fast similarity search.
-
-### What does similarity_search() do?
-
-Finds the most relevant chunks for a user query.
-
-### Why FastAPI?
-
-FastAPI exposes the RAG system through APIs.
-
-### Why Streamlit?
-
-Streamlit provides a simple user interface.
-
----
-
-## APIs
-
-### Upload Document
-
-POST /upload
 
 Purpose:
 
-* Receive document text
-* Create chunks
-* Create embeddings
-* Create vector database
-
-### Ask Question
-
-POST /ask
-
-Purpose:
-
-* Search relevant chunks
-* Build prompt
-* Query LLM
-* Return answer
+* Store embeddings
+* Perform similarity search
 
 ---
 
-## Commands
+### Hybrid Search
 
-Run Backend:
+Implemented:
 
-uvicorn backend:app --reload
+* FAISS Search
+* BM25 Search
 
-Run Frontend:
+Purpose:
 
-streamlit run frontend.py --server.port 8506
+* Combine semantic search and keyword search
 
-Docker Build:
+Benefits:
+
+* Better retrieval accuracy
+* Improved document understanding
+
+---
+
+### Cross Encoder Reranking
+
+Used:
+
+* cross-encoder/ms-marco-MiniLM-L-6-v2
+
+Purpose:
+
+* Rank retrieved chunks
+* Select most relevant context
+
+---
+
+### FastAPI
+
+Purpose:
+
+* Backend API
+* Document upload
+* Question answering
+
+Endpoints:
+
+* /upload
+* /ask
+* /reset
+
+---
+
+### Streamlit
+
+Purpose:
+
+* Frontend UI
+* File Upload
+* Chat Interface
+* Source Display
+
+---
+
+### Docker
+
+Purpose:
+
+* Containerize application
+* Easy deployment
+
+Commands:
 
 docker build -t resume-rag-api .
 
-Docker Run:
-
-docker run -p 8000:8000 --env-file .env resume-rag-api
+docker run -p 8000:8000 resume-rag-api
 
 ---
 
-## Lessons Learned
+## Challenges Faced
 
-* Frontend = UI
-* Backend = Business Logic
-* API = Communication Layer
-* Embeddings = Text to Vector
-* FAISS = Vector Database
-* RAG = Retrieval + Generation
-* Docker = Package Application
-* GitHub = Version Control
+### Challenge 1
+
+Problem:
+
+Old documents remained in Vector DB.
+
+Solution:
+
+Created /reset endpoint.
+
+---
+
+### Challenge 2
+
+Problem:
+
+Poor retrieval quality.
+
+Solution:
+
+Implemented Hybrid Search.
+
+---
+
+### Challenge 3
+
+Problem:
+
+Important chunks were not selected.
+
+Solution:
+
+Added Cross Encoder Reranking.
+
+---
+
+## Future Improvements
+
+* Multi Query Retrieval
+* Conversational Memory
+* RAGAS Evaluation
+* Resume Comparison
+* ATS Scoring
+* Resume Improvement Suggestions
+
+---
+
+## Key Learning
+
+Retrieval quality is more important than changing the LLM.
+
+Better Retrieval
+↓
+Better Context
+↓
+Better Answers
