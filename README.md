@@ -263,11 +263,11 @@ http://127.0.0.1:8000/docs
 
 # ▶️ Run Frontend
 
-streamlit run frontend.py --server.port 8506
+streamlit run frontend.py
 
 Frontend URL:
 
-http://localhost:8506
+http://localhost:8501
 
 ---
 
